@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #2f4f5c;
+  --background: #fffefb;
+  --muted: #5c7280;
+  --heading: #1e3d47;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-page {
+    background-color: var(--background);
+    background-image: linear-gradient(
+      165deg,
+      #f4fcfd 0%,
+      #fffefb 32%,
+      #faf5eb 68%,
+      #f2f9fa 100%
+    );
+    background-attachment: fixed;
+  }
+}
