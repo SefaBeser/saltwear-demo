@@ -22,7 +22,7 @@ export function About() {
           </h2>
           <div className="mt-8 space-y-5 font-sans text-base leading-[1.8] text-neutral-600">
             <p>
-              SaltWear, 2025 yılında Türkiye'de doğdu. Çıkış noktamız basit bir gözlemdi: yazın en
+              SaltWear, 2025 yılında Türkiye&apos;de doğdu. Çıkış noktamız basit bir gözlemdi: yazın en
               güzel anları — sahilde bir yürüyüş, gün batımında bir teras sofrası, limandan dönen bir
               tekne — çoğu zaman üzerimizdekilerin rahatlığıyla doğru orantılı.
             </p>
