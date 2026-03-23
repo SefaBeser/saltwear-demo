@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { CategoryId, Product } from "@/data/products";
+import { useRouter } from "next/navigation";
+import type { Product } from "@/data/products";
 import {
   getCart,
   saveCart,
@@ -23,13 +24,14 @@ import { Navbar } from "./Navbar";
 import { Newsletter } from "./Newsletter";
 import { ProductGrid } from "./ProductGrid";
 import { SearchOverlay } from "./SearchOverlay";
+import { SizePickerModal } from "./SizePickerModal";
 
 type HomeClientProps = {
   products: Product[];
 };
 
 export function HomeClient({ products }: HomeClientProps) {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryId | null>(null);
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -37,6 +39,9 @@ export function HomeClient({ products }: HomeClientProps) {
 
   const [cartLines, setCartLines] = useState<CartLine[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(() => new Set());
+  const [sizePickerOpen, setSizePickerOpen] = useState(false);
+  const [pendingProduct, setPendingProduct] = useState<Product | null>(null);
+  const [pendingSize, setPendingSize] = useState("");
 
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterDone, setNewsletterDone] = useState(false);
@@ -108,9 +113,6 @@ export function HomeClient({ products }: HomeClientProps) {
     const q = searchQuery.trim().toLowerCase();
 
     return products.filter((product) => {
-      const categoryOk = categoryFilter ? product.category === categoryFilter : true;
-
-      if (!categoryOk) return false;
       if (!q) return true;
 
       return (
@@ -118,7 +120,7 @@ export function HomeClient({ products }: HomeClientProps) {
         product.description.toLowerCase().includes(q)
       );
     });
-  }, [products, categoryFilter, searchQuery]);
+  }, [products, searchQuery]);
 
   const cartCount = useMemo(
     () => cartLines.reduce((sum, line) => sum + line.quantity, 0),
@@ -152,28 +154,27 @@ export function HomeClient({ products }: HomeClientProps) {
     setSearchOpen(false);
   }, []);
 
-  const selectCategory = (id: CategoryId) => {
-    setCategoryFilter(id);
-    requestAnimationFrame(() => {
-      document.getElementById("urunler")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  };
-
-  const clearCategory = () => {
-    setCategoryFilter(null);
-  };
-
   const toggleFavorite = (productId: string) => {
     const next = toggleFavoriteStorage(productId);
     setFavorites(new Set(next));
   };
 
   const addToCart = (product: Product) => {
+    const preselectedSize = product.sizes.length === 1 ? product.sizes[0] : "";
+    setPendingProduct(product);
+    setPendingSize(preselectedSize);
+    setSizePickerOpen(true);
+  };
+
+  const confirmAddToCart = () => {
+    if (!pendingProduct || !pendingSize) return;
+
     addToCartStorage({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      imageUrl: product.imageUrl,
+      id: pendingProduct.id,
+      name: pendingProduct.name,
+      price: pendingProduct.price,
+      imageUrl: pendingProduct.imageUrl,
+      size: pendingSize,
     });
 
     const storedCart = getCart();
@@ -187,14 +188,19 @@ export function HomeClient({ products }: HomeClientProps) {
     );
 
     setCartOpen(true);
+    setSizePickerOpen(false);
+    setPendingProduct(null);
+    setPendingSize("");
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (productId: string, size: string | undefined, quantity: number) => {
     const current = getCart();
 
     const next = current
       .map((item) =>
-        item.id === productId ? { ...item, quantity: Math.max(1, quantity) } : item,
+        item.id === productId && item.size === size
+          ? { ...item, quantity: Math.max(1, quantity) }
+          : item,
       )
       .filter((item) => item.quantity > 0);
 
@@ -202,9 +208,43 @@ export function HomeClient({ products }: HomeClientProps) {
     syncFromStorage();
   };
 
-  const removeLine = (productId: string) => {
+  const updateLineSize = (productId: string, currentSize: string | undefined, nextSize: string) => {
     const current = getCart();
-    const next = current.filter((item) => item.id !== productId);
+    if (!nextSize) {
+      const reset = current.map((item) =>
+        item.id === productId && item.size === currentSize ? { ...item, size: undefined } : item,
+      );
+      saveCart(reset);
+      syncFromStorage();
+      return;
+    }
+
+    const merged: typeof current = [];
+    for (const item of current) {
+      if (item.id === productId && item.size === currentSize) {
+        const duplicate = merged.find((m) => m.id === item.id && m.size === nextSize);
+        if (duplicate) {
+          duplicate.quantity += item.quantity;
+        } else {
+          merged.push({ ...item, size: nextSize });
+        }
+      } else {
+        const existing = merged.find((m) => m.id === item.id && m.size === item.size);
+        if (existing) {
+          existing.quantity += item.quantity;
+        } else {
+          merged.push({ ...item });
+        }
+      }
+    }
+
+    saveCart(merged);
+    syncFromStorage();
+  };
+
+  const removeLine = (productId: string, size: string | undefined) => {
+    const current = getCart();
+    const next = current.filter((item) => !(item.id === productId && item.size === size));
     saveCart(next);
     syncFromStorage();
   };
@@ -257,12 +297,12 @@ export function HomeClient({ products }: HomeClientProps) {
 
       <Hero onYazSecimi={scrollToProducts} />
 
-      <CategorySection onSelect={selectCategory} />
+      <CategorySection />
 
       <ProductGrid
         products={displayProducts}
-        filter={categoryFilter}
-        onClearFilter={clearCategory}
+        filter={null}
+        onClearFilter={() => {}}
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
         onAddToCart={addToCart}
@@ -297,6 +337,7 @@ export function HomeClient({ products }: HomeClientProps) {
         productsById={productsById}
         onClose={() => setCartOpen(false)}
         onUpdateQuantity={updateQuantity}
+        onUpdateSize={updateLineSize}
         onRemove={removeLine}
         onCheckout={checkout}
       />
@@ -306,7 +347,7 @@ export function HomeClient({ products }: HomeClientProps) {
         items={favoriteItems}
         onClose={() => setFavOpen(false)}
         onRemove={toggleFavorite}
-        onScrollToProducts={scrollToProducts}
+        onGoToFavoritesPage={() => router.push("/favoriler")}
       />
 
       <SearchOverlay
@@ -314,6 +355,19 @@ export function HomeClient({ products }: HomeClientProps) {
         query={searchQuery}
         onQueryChange={setSearchQuery}
         onClose={closeSearch}
+      />
+
+      <SizePickerModal
+        open={sizePickerOpen}
+        product={pendingProduct}
+        selectedSize={pendingSize}
+        onSelectSize={setPendingSize}
+        onClose={() => {
+          setSizePickerOpen(false);
+          setPendingProduct(null);
+          setPendingSize("");
+        }}
+        onConfirm={confirmAddToCart}
       />
     </>
   );

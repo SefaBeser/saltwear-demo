@@ -20,11 +20,22 @@ export function About() {
           <h2 className="mt-4 font-display text-3xl font-medium tracking-tight text-[var(--heading)] sm:text-4xl">
             Sahil markası SaltWear
           </h2>
-          <p className="mt-8 font-sans text-base leading-[1.8] text-neutral-600">
-            SaltWear, Ege kıyısından ilham alan resortwear çizgisinde; plaj, yaz akşamı ve tatil
-            rahatlığını bir araya getirir. Keten, hasır ve açık tonlarda doğal kumaşlarla hem ferah
-            hem de şık bir siluet sunarız.
-          </p>
+          <div className="mt-8 space-y-5 font-sans text-base leading-[1.8] text-neutral-600">
+            <p>
+              SaltWear, 2025 yılında Türkiye'de doğdu. Çıkış noktamız basit bir gözlemdi: yazın en
+              güzel anları — sahilde bir yürüyüş, gün batımında bir teras sofrası, limandan dönen bir
+              tekne — çoğu zaman üzerimizdekilerin rahatlığıyla doğru orantılı.
+            </p>
+            <p>
+              Bu anlara eşlik edecek parçalar tasarlamak istedik. Gösterişli değil, kendinden emin.
+              Trendi kovalayan değil, zamansız. Plajda da şehirde de aynı doğallıkla taşınabilen bir
+              gardırop.
+            </p>
+            <p>
+              İsmimiz bu felsefenin özetidir: Salt — denizin tuzu, kıyı yaşamının sade güzelliği.
+              Wear — giyimin en yalın hali. İkisi bir arada: doğallığı giyilebilir kılan bir marka.
+            </p>
+          </div>
         </div>
       </div>
     </section>

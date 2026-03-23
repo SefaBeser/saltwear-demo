@@ -12,8 +12,9 @@ type CartDrawerProps = {
   onClose: () => void;
   lines: CartLine[];
   productsById: Map<string, Product>;
-  onUpdateQuantity: (productId: string, quantity: number) => void;
-  onRemove: (productId: string) => void;
+  onUpdateQuantity: (productId: string, size: string | undefined, quantity: number) => void;
+  onUpdateSize: (productId: string, currentSize: string | undefined, nextSize: string) => void;
+  onRemove: (productId: string, size: string | undefined) => void;
   onCheckout: () => void;
 };
 
@@ -23,6 +24,7 @@ export function CartDrawer({
   lines,
   productsById,
   onUpdateQuantity,
+  onUpdateSize,
   onRemove,
   onCheckout,
 }: CartDrawerProps) {
@@ -31,6 +33,8 @@ export function CartDrawer({
     if (!p) return sum;
     return sum + p.price * line.quantity;
   }, 0);
+
+  const hasMissingSize = lines.some((line) => !line.size);
 
   return (
     <>
@@ -69,7 +73,10 @@ export function CartDrawer({
                 const product = productsById.get(line.productId);
                 if (!product) return null;
                 return (
-                  <li key={line.productId} className="flex gap-4 border-b border-neutral-100 pb-6">
+                  <li
+                    key={`${line.productId}-${line.size ?? "beden-yok"}`}
+                    className="flex gap-4 border-b border-neutral-100 pb-6"
+                  >
                     <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-sand-100">
                       <Image
                         src={product.imageUrl}
@@ -82,13 +89,34 @@ export function CartDrawer({
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-sea-900">{product.name}</p>
                       <p className="mt-1 text-sm text-neutral-600">{formatTry(product.price)}</p>
+                      <div className="mt-2">
+                        <label className="mb-1 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-500">
+                          Beden
+                        </label>
+                        <select
+                          value={line.size ?? ""}
+                          onChange={(e) => onUpdateSize(line.productId, line.size, e.target.value)}
+                          className="w-full rounded-xl border border-sea-200 bg-white px-3 py-2 text-sm text-sea-900 outline-none transition focus:border-sea-400"
+                        >
+                          <option value="">Beden Seçin</option>
+                          {product.sizes.map((size) => (
+                            <option key={size} value={size}>
+                              {size}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                       <div className="mt-3 flex items-center gap-3">
                         <div className="inline-flex items-center rounded-full border border-neutral-200">
                           <button
                             type="button"
                             className="px-3 py-1 text-lg leading-none text-neutral-700"
                             onClick={() =>
-                              onUpdateQuantity(line.productId, Math.max(1, line.quantity - 1))
+                              onUpdateQuantity(
+                                line.productId,
+                                line.size,
+                                Math.max(1, line.quantity - 1),
+                              )
                             }
                             aria-label="Adet azalt"
                           >
@@ -100,7 +128,9 @@ export function CartDrawer({
                           <button
                             type="button"
                             className="px-3 py-1 text-lg leading-none text-neutral-700"
-                            onClick={() => onUpdateQuantity(line.productId, line.quantity + 1)}
+                            onClick={() =>
+                              onUpdateQuantity(line.productId, line.size, line.quantity + 1)
+                            }
                             aria-label="Adet artır"
                           >
                             +
@@ -108,7 +138,7 @@ export function CartDrawer({
                         </div>
                         <button
                           type="button"
-                          onClick={() => onRemove(line.productId)}
+                          onClick={() => onRemove(line.productId, line.size)}
                           className="text-sm font-medium text-red-600 hover:underline"
                         >
                           Kaldır
@@ -130,11 +160,16 @@ export function CartDrawer({
           <button
             type="button"
             onClick={onCheckout}
-            disabled={lines.length === 0}
+            disabled={lines.length === 0 || hasMissingSize}
             className="mt-4 w-full rounded-full bg-gradient-to-b from-sea-600 to-sea-700 py-3 text-sm font-medium tracking-wide text-white shadow-soft transition hover:from-sea-500 hover:to-sea-600 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Ödeme Yap
           </button>
+          {hasMissingSize ? (
+            <p className="mt-3 text-xs font-medium text-amber-700">
+              Ödeme için sepetinizdeki tüm ürünlerde beden seçimi zorunludur.
+            </p>
+          ) : null}
         </div>
       </aside>
     </>

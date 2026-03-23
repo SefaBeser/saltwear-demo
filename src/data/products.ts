@@ -1,4 +1,28 @@
 export type CategoryId = "kadın" | "erkek" | "aksesuar";
+export type CategorySlug = "kadin" | "erkek" | "aksesuar";
+
+const categoryToSlug: Record<CategoryId, CategorySlug> = {
+  kadın: "kadin",
+  erkek: "erkek",
+  aksesuar: "aksesuar",
+};
+
+const slugToCategory: Record<CategorySlug, CategoryId> = {
+  kadin: "kadın",
+  erkek: "erkek",
+  aksesuar: "aksesuar",
+};
+
+export function categoryIdToSlug(categoryId: CategoryId): CategorySlug {
+  return categoryToSlug[categoryId];
+}
+
+export function categorySlugToId(categorySlug: string): CategoryId | null {
+  if (categorySlug === "kadin" || categorySlug === "erkek" || categorySlug === "aksesuar") {
+    return slugToCategory[categorySlug];
+  }
+  return null;
+}
 
 export type Product = {
   id: string;

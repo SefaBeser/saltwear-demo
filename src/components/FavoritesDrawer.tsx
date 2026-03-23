@@ -10,7 +10,7 @@ type FavoritesDrawerProps = {
   onClose: () => void;
   items: Product[];
   onRemove: (id: string) => void;
-  onScrollToProducts: () => void;
+  onGoToFavoritesPage: () => void;
 };
 
 export function FavoritesDrawer({
@@ -18,7 +18,7 @@ export function FavoritesDrawer({
   onClose,
   items,
   onRemove,
-  onScrollToProducts,
+  onGoToFavoritesPage,
 }: FavoritesDrawerProps) {
   return (
     <>
@@ -85,7 +85,7 @@ export function FavoritesDrawer({
           <button
             type="button"
             onClick={() => {
-              onScrollToProducts();
+              onGoToFavoritesPage();
               onClose();
             }}
             className="w-full rounded-full border border-sea-300/90 bg-white/95 py-3 text-sm font-medium tracking-wide text-sea-900 shadow-innerWarm transition hover:border-sea-500 hover:bg-sea-50"

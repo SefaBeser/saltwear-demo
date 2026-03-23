@@ -1,8 +1,5 @@
-import type { CategoryId } from "@/data/products";
-
-type CategorySectionProps = {
-  onSelect: (id: CategoryId) => void;
-};
+import Link from "next/link";
+import { categoryIdToSlug, type CategoryId } from "@/data/products";
 
 const cards: {
   id: CategoryId;
@@ -26,7 +23,7 @@ const cards: {
   },
 ];
 
-export function CategorySection({ onSelect }: CategorySectionProps) {
+export function CategorySection() {
   return (
     <section
       id="koleksiyon"
@@ -41,16 +38,15 @@ export function CategorySection({ onSelect }: CategorySectionProps) {
             Ege çizgisinde üç seçenek
           </h2>
           <p className="mt-5 font-sans text-base leading-relaxed text-neutral-600">
-            Bir kategori seçin; ürünler aşağıda anında süzülür.
+            Bir kategori seçin; ilgili ürün sayfası açılsın.
           </p>
         </div>
 
         <div className="mt-16 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:gap-10">
           {cards.map((card) => (
-            <button
+            <Link
               key={card.id}
-              type="button"
-              onClick={() => onSelect(card.id)}
+              href={`/kategori/${categoryIdToSlug(card.id)}`}
               className="group relative overflow-hidden rounded-2xl bg-white text-left shadow-card ring-1 ring-sea-100/40 transition duration-500 hover:-translate-y-2 hover:shadow-soft-lg"
             >
               <div className="relative aspect-[3/4] overflow-hidden bg-sand-100">
@@ -67,7 +63,7 @@ export function CategorySection({ onSelect }: CategorySectionProps) {
                   </p>
                 </div>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </div>

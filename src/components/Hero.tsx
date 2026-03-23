@@ -26,8 +26,8 @@ export function Hero({ onYazSecimi }: HeroProps) {
               SaltWear ile yazın en hafif halini keşfedin
             </h1>
             <p className="mt-8 font-sans text-base font-normal leading-[1.75] text-neutral-600 sm:text-lg">
-              Ege sahili, deniz esintisi ve gün batımı tonlarında keten, hasır ve doğal kumaşlar.
-              Plajdan akşam sofrasına — tatil rahatlığında, sıcak ve samimi bir yaz markası.
+              SaltWear, kıyı yaşamından ilham alarak doğal kumaşlar ve özenli kesimlerle plajdan gün
+              batımına uzanan bir gardırop sunar. Sınırlı sayıda, zamansız parçalar.
             </p>
             <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
               <a
