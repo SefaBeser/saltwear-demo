@@ -7,25 +7,21 @@ type CategorySectionProps = {
 const cards: {
   id: CategoryId;
   title: string;
-  subtitle: string;
   image: string;
 }[] = [
   {
     id: "erkek",
     title: "Erkek",
-    subtitle: "Çiçekli Gömlek",
     image: "/images/erkek-gomlek.jpg",
   },
   {
     id: "kadın",
     title: "Kadın",
-    subtitle: "Plaj Elbisesi",
     image: "/images/kadin-elbise.jpg",
   },
   {
     id: "aksesuar",
     title: "Aksesuar",
-    subtitle: "Hasır çanta",
     image: "/images/hasir-canta.jpg",
   },
 ];
@@ -61,16 +57,13 @@ export function CategorySection({ onSelect }: CategorySectionProps) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={card.image}
-                  alt={`${card.title}: ${card.subtitle}`}
+                  alt={card.title}
                   className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-sea-900/70 via-sea-800/15 to-transparent opacity-90 transition group-hover:from-sea-900/75" />
                 <div className="absolute inset-x-0 bottom-0 p-7">
                   <p className="font-display text-2xl font-medium text-white drop-shadow-sm">
                     {card.title}
-                  </p>
-                  <p className="mt-2 font-sans text-sm font-normal leading-snug text-sea-50/95">
-                    {card.subtitle}
                   </p>
                 </div>
               </div>

@@ -10,13 +10,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  /** Bozuk .next / webpack pack cache sonrası dev sunucusunun çökmesini önler */
-  webpack: (config, { dev }) => {
-    if (dev) {
-      config.cache = false;
-    }
-    return config;
-  },
 };
 
 export default nextConfig;
