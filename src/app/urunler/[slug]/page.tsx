@@ -8,8 +8,14 @@ type PageProps = {
 };
 
 export default async function ProductDetailPage({ params }: PageProps) {
-  const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
+  const resolved = await params;
+  const slug = resolved?.slug;
+
+  if (typeof slug !== "string" || !slug.trim()) {
+    notFound();
+  }
+
+  const product = products.find((item) => item.slug === slug.trim());
 
   if (!product) {
     notFound();

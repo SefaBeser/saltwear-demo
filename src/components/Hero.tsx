@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { scrollToPageSection } from "@/lib/in-page-nav";
 
 type HeroProps = {
   onYazSecimi: () => void;
 };
 
-const heroImage = "/images/olive-table.jpg";
+const heroImage = "/images/tasar.jpg";
 
 export function Hero({ onYazSecimi }: HeroProps) {
   return (
@@ -30,12 +31,13 @@ export function Hero({ onYazSecimi }: HeroProps) {
               batımına uzanan bir gardırop sunar. Sınırlı sayıda, zamansız parçalar.
             </p>
             <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
-              <a
-                href="#koleksiyon"
+              <button
+                type="button"
                 className="inline-flex h-12 items-center justify-center rounded-full bg-sea-600 px-10 font-sans text-sm font-medium tracking-wide text-white shadow-hero transition hover:bg-sea-500"
+                onClick={() => scrollToPageSection("koleksiyon")}
               >
                 Koleksiyonu Keşfet
-              </a>
+              </button>
               <button
                 type="button"
                 onClick={onYazSecimi}

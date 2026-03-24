@@ -40,7 +40,7 @@ export function Contact({
 
           {submitted ? (
             <p className="mt-10 rounded-2xl border border-lagoon-200 bg-lagoon-50/90 px-6 py-4 font-sans text-sm text-lagoon-900">
-              Mesajınız alındı. En kısa sürede size dönüş yapacağız. (Demo)
+              Mesajınız alındı. En kısa sürede dönüş yapacağız.
             </p>
           ) : (
             <form onSubmit={onSubmit} className="mt-12 space-y-6">

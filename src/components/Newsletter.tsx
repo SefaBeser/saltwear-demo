@@ -29,7 +29,7 @@ export function Newsletter({ email, onEmailChange, submitted, onSubmit }: Newsle
           <div className="lg:col-span-7">
             {submitted ? (
               <p className="rounded-2xl border border-lagoon-200 bg-lagoon-50/80 px-6 py-5 font-sans text-sm text-lagoon-900">
-                Teşekkürler! Kaydınız alındı. (Demo — gerçek gönderim yoktur.)
+                Teşekkürler! Kaydınız alındı.
               </p>
             ) : (
               <form onSubmit={onSubmit} className="flex flex-col gap-4 sm:flex-row sm:items-stretch">

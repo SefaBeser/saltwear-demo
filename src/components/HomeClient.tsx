@@ -12,6 +12,7 @@ import {
 } from "@/lib/shop-storage";
 
 import { About } from "./About";
+import { BrandInsights } from "./BrandInsights";
 import { CampaignBanner } from "./CampaignBanner";
 import type { CartLine } from "./CartDrawer";
 import { CartDrawer } from "./CartDrawer";
@@ -67,6 +68,15 @@ export function HomeClient({ products }: HomeClientProps) {
   }, []);
 
   useEffect(() => {
+    const id = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
+    if (id) {
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     syncFromStorage();
 
     window.addEventListener("saltwear:storage-updated", syncFromStorage);
@@ -109,19 +119,6 @@ export function HomeClient({ products }: HomeClientProps) {
     return map;
   }, [products]);
 
-  const displayProducts = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-
-    return products.filter((product) => {
-      if (!q) return true;
-
-      return (
-        product.name.toLowerCase().includes(q) ||
-        product.description.toLowerCase().includes(q)
-      );
-    });
-  }, [products, searchQuery]);
-
   const cartCount = useMemo(
     () => cartLines.reduce((sum, line) => sum + line.quantity, 0),
     [cartLines],
@@ -153,6 +150,13 @@ export function HomeClient({ products }: HomeClientProps) {
   const closeSearch = useCallback(() => {
     setSearchOpen(false);
   }, []);
+
+  const runSearch = useCallback(() => {
+    const q = searchQuery.trim();
+    if (!q) return;
+    setSearchOpen(false);
+    router.push(`/arama?q=${encodeURIComponent(q)}`);
+  }, [router, searchQuery]);
 
   const toggleFavorite = (productId: string) => {
     const next = toggleFavoriteStorage(productId);
@@ -300,7 +304,7 @@ export function HomeClient({ products }: HomeClientProps) {
       <CategorySection />
 
       <ProductGrid
-        products={displayProducts}
+        products={products}
         filter={null}
         onClearFilter={() => {}}
         favorites={favorites}
@@ -310,6 +314,7 @@ export function HomeClient({ products }: HomeClientProps) {
 
       <CampaignBanner />
       <About />
+      <BrandInsights />
 
       <Newsletter
         email={newsletterEmail}
@@ -354,6 +359,7 @@ export function HomeClient({ products }: HomeClientProps) {
         open={searchOpen}
         query={searchQuery}
         onQueryChange={setSearchQuery}
+        onSearch={runSearch}
         onClose={closeSearch}
       />
 

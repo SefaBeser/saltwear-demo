@@ -19,7 +19,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "SaltWear | Ege & Plaj",
   description:
-    "Keten, hasır ve açık tonlarda yaz: Ege sahili, plaj ve gün batımı için resortwear.",
+    "Keten, hasır ve açık tonlarda yaz: Sahil, plaj ve gün batımı için resortwear.",
 };
 
 export default function RootLayout({

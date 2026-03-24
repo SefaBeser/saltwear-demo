@@ -6,7 +6,7 @@ export function CampaignBanner() {
     >
       <div className="mx-auto max-w-6xl px-6 py-12 sm:px-8 sm:py-16 lg:px-10">
         <p className="text-center font-display text-xl font-medium leading-snug text-[var(--heading)] sm:text-2xl">
-          Deniz esintisi, doğal kumaşlar, keten ve hasır — yaz akşamına kadar yanınızda.
+          Deniz tuzu, güneş ışığı ve keten ferahlığı; yaz rüyasına eşlik eden doğal seçimler.
         </p>
       </div>
     </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCart } from "@/lib/shop-storage";
@@ -22,9 +23,18 @@ export function ProductDetailNav() {
     <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-sky-100 pb-5">
       <Link
         href="/"
-        className="font-display text-3xl text-slate-800 transition hover:opacity-80"
+        className="inline-flex items-center gap-2 transition hover:opacity-80"
+        aria-label="SaltWear ana sayfa"
       >
-        SaltWear
+        <span className="font-display text-3xl text-slate-800">SaltWear</span>
+        <span className="relative h-9 w-9 overflow-hidden sm:h-10 sm:w-10" aria-hidden>
+          <Image
+            src="/images/logoson.png"
+            alt=""
+            fill
+            className="object-contain object-center mix-blend-screen scale-[2.8] translate-y-[7px]"
+          />
+        </span>
       </Link>
 
       <div className="flex items-center gap-6">
