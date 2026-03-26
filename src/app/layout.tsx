@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { ChatAssistant } from "@/components/ChatAssistant";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="tr" className={`${outfit.variable} ${cormorant.variable}`}>
       <body className="min-h-screen bg-page font-sans text-[var(--foreground)] antialiased">
         {children}
+        <ChatAssistant />
       </body>
     </html>
   );
