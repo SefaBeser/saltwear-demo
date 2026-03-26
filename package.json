@@ -6,6 +6,7 @@
     "clean": "rm -rf .next",
     "dev": "next dev",
     "dev:clean": "rm -rf .next && next dev",
+    "dev:stable": "sh -c 'PID=$(lsof -ti tcp:3000); [ -n \"$PID\" ] && kill -9 $PID || true; rm -rf .next; WATCHPACK_POLLING=true next dev --hostname 127.0.0.1 --port 3000'",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

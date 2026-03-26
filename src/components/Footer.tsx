@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { IconInstagram, IconTwitter, IconYoutube } from "./icons";
+import { IconInstagram, IconPinterest, IconTiktok, IconTwitter, IconYoutube } from "./icons";
 
 const linkClass =
   "font-sans text-sm text-neutral-700 transition hover:text-sea-700";
@@ -88,6 +88,24 @@ export function Footer() {
                 aria-label="YouTube"
               >
                 <IconYoutube className="h-6 w-6" />
+              </a>
+              <a
+                href="https://www.pinterest.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sea-600 transition hover:text-sea-800"
+                aria-label="Pinterest"
+              >
+                <IconPinterest className="h-6 w-6" />
+              </a>
+              <a
+                href="https://www.tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sea-600 transition hover:text-sea-800"
+                aria-label="TikTok"
+              >
+                <IconTiktok className="h-6 w-6" />
               </a>
             </div>
           </div>

@@ -62,3 +62,23 @@ export function IconYoutube(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export function IconPinterest(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path
+        fill="#fff"
+        d="M12.2 6.6c-3 0-4.8 2.1-4.8 4.4 0 1.2.4 2.2 1.3 2.6.1.1.2 0 .2-.1l.2-1c0-.1 0-.1-.1-.2-.3-.4-.5-.9-.5-1.6 0-2 1.5-3.8 3.9-3.8 2.1 0 3.3 1.3 3.3 3 0 2.3-1 4.2-2.5 4.2-.8 0-1.3-.6-1.1-1.4.2-.9.6-1.9.6-2.6 0-.6-.3-1.1-1-1.1-.8 0-1.4.8-1.4 1.9 0 .7.2 1.1.2 1.1l-.9 3.7c-.3 1.2 0 2.6 0 2.7.1.1.2 0 .2-.1.1-.2.8-1.2 1-2.3l.4-1.5c.2.4.9.8 1.6.8 2.1 0 3.6-1.9 3.6-4.6 0-2-1.7-3.9-4.2-3.9z"
+      />
+    </svg>
+  );
+}
+
+export function IconTiktok(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M14.8 3.2h-2.1v10a2.7 2.7 0 1 1-2.7-2.7c.2 0 .4 0 .6.1V8.5a4.8 4.8 0 1 0 4.2 4.8V8.8c1 .8 2.1 1.2 3.4 1.2V8c-1.5 0-2.9-1-3.4-2.4V3.2z" />
+    </svg>
+  );
+}
